@@ -1,71 +1,63 @@
 package com.example.vostro.myapplication;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
-import android.widget.ListView;
+import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
+public class MainActivity extends AppCompatActivity implements LeftDrawerFragment.NavigationItemCLicked{
 
-public class MainActivity extends AppCompatActivity {
+    DrawerLayout drawerLayout;
+    Toolbar toolbar;
+    TextView textView;
 
-    ListView listView;
-    LinearLayout linearLayout;
-    /*TextView textView;
-    DataFromActivityToFragment dataFromActivityToFragment;
-*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        listView = (ListView) findViewById(R.id.list_view);
-        linearLayout = (LinearLayout) findViewById(R.id.linear_layout);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        textView = (TextView) findViewById(R.id.tv);
 
-        List<String> arrayStringList = new ArrayList<>();
-        for(int i=1; i<21; i++) {
-            arrayStringList.add("List Item " + i);
-        }
+        setSupportActionBar(toolbar);
 
-        ArrayAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,
-                arrayStringList);
-        listView.setAdapter(adapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Snackbar.make(linearLayout, (CharSequence) listView.getItemAtPosition(position),
-                        Snackbar.LENGTH_SHORT).show();
-            }
-        });
-       /* FragmentA fr = new FragmentA();
+        LeftDrawerFragment fr = new LeftDrawerFragment();
         FragmentManager fm = getFragmentManager();
-        dataFromActivityToFragment = (DataFromActivityToFragment) fr;
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_place, fr);
+        fragmentTransaction.replace(R.id.navigation_container, fr);
         fragmentTransaction.commit();
 
-
-        final Handler handler = new Handler();
-
-        final Runnable r = new Runnable() {
-            public void run() {
-                dataFromActivityToFragment.sendData("Hi");
-            }
-        };
-
-        handler.postDelayed(r, 5000);*/
-
-
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this
+                , drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close);
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
     }
 
-    /*public interface DataFromActivityToFragment {
-        void sendData(String data);
-    }*/
+    @Override
+    public void itemClicked(String item) {
+        textView.setVisibility(View.GONE);
+        drawerLayout.closeDrawer(Gravity.LEFT);
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
 
+        switch (item) {
+            case "ListViewFragment":
+                ListViewFragment listViewFragment = new ListViewFragment();
+                fragmentTransaction.replace(R.id.fragment_container, listViewFragment);
+                fragmentTransaction.commit();
+                break;
+            case "RecyclerViewFragment":
+                RecyclerViewFragment recyclerViewFragment = new RecyclerViewFragment();
+                fragmentTransaction.replace(R.id.fragment_container, recyclerViewFragment);
+                fragmentTransaction.commit();
+                break;
+        }
+    }
 }

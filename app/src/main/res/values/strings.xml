@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">My Application</string>
     <string name="action_settings">Settings</string>
+    <string name="action_list_view">ListView</string>
+    <string name="action_recycler_view">RecyclerView</string>
+    <string name="drawer_open">Menu Opened</string>
+    <string name="drawer_close">Menu Closed</string>
+    <string name="text">This is a demo application to test various functionality like ListView, RecyclerView, etc. Also includes test cases.</string>
 </resources>
