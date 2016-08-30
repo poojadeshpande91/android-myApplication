@@ -1,4 +1,4 @@
-package com.example.vostro.myapplication;
+package com.example.vostro.myapplication.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -11,6 +11,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+
+import com.example.vostro.myapplication.R;
 
 import java.util.ArrayList;
 
