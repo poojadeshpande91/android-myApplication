@@ -1,4 +1,4 @@
-package com.example.vostro.myapplication;
+package com.example.vostro.myapplication.fragments;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -10,6 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.example.vostro.myapplication.R;
+import com.example.vostro.myapplication.helper.ItemDecoration;
 
 import java.util.ArrayList;
 
@@ -40,29 +43,30 @@ public class RecyclerViewFragment extends Fragment {
         }
 
         linearLayoutManager = new LinearLayoutManager(getActivity());
-        recyclerViewAdapter = new RecyclerViewAdapter(getActivity(), arrayList);
+        ItemDecoration itemDecoration = new ItemDecoration(100);
         recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.addItemDecoration(itemDecoration);
+        recyclerViewAdapter = new RecyclerViewAdapter(getActivity(), arrayList);
         recyclerView.setAdapter(recyclerViewAdapter);
     }
 
-    private class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ItemHolder> {
+    private class RecyclerViewAdapter extends RecyclerView.Adapter<ItemHolder> {
 
         private ArrayList<String> items;
-        private LayoutInflater layoutInflater;
 
         public RecyclerViewAdapter(Context context, ArrayList<String> items) {
-            layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             this.items = items;
         }
 
         @Override
-        public RecyclerViewAdapter.ItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View itemView = layoutInflater.inflate(R.layout.layout_item, parent, false);
-            return new ItemHolder(itemView, this);
+        public ItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View itemView =  LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.layout_item, parent, false);
+            return new ItemHolder(itemView);
         }
 
         @Override
-        public void onBindViewHolder(RecyclerViewAdapter.ItemHolder holder, int position) {
+        public void onBindViewHolder(ItemHolder holder, int position) {
             holder.textView.setText(items.get(position));
         }
 
@@ -70,15 +74,15 @@ public class RecyclerViewFragment extends Fragment {
         public int getItemCount() {
             return items.size();
         }
+    }
 
-        class ItemHolder extends RecyclerView.ViewHolder {
+    class ItemHolder extends RecyclerView.ViewHolder {
 
-            TextView textView;
+        TextView textView;
 
-            public ItemHolder(View itemView, RecyclerViewAdapter parent) {
-                super(itemView);
-                textView = (TextView) itemView.findViewById(R.id.text_view);
-            }
+        public ItemHolder(View itemView) {
+            super(itemView);
+            textView = (TextView) itemView.findViewById(R.id.text_view);
         }
     }
 }

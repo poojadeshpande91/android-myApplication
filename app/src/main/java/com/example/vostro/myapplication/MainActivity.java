@@ -11,6 +11,11 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.vostro.myapplication.fragments.FragmentDemo;
+import com.example.vostro.myapplication.fragments.LeftDrawerFragment;
+import com.example.vostro.myapplication.fragments.ListViewFragment;
+import com.example.vostro.myapplication.fragments.RecyclerViewFragment;
+
 public class MainActivity extends AppCompatActivity implements LeftDrawerFragment.NavigationItemCLicked{
 
     DrawerLayout drawerLayout;
@@ -46,16 +51,29 @@ public class MainActivity extends AppCompatActivity implements LeftDrawerFragmen
         drawerLayout.closeDrawer(Gravity.LEFT);
         FragmentManager fm = getFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
-
+        ListViewFragment listViewFragment = new ListViewFragment();
+        RecyclerViewFragment recyclerViewFragment = new RecyclerViewFragment();
+        FragmentDemo fragmentDemo = new FragmentDemo();
         switch (item) {
+            case "Home":
+                if(listViewFragment != null) {
+                    fragmentTransaction.remove(listViewFragment);
+                    fragmentTransaction.commit();
+                } else {
+                    fragmentTransaction.remove(recyclerViewFragment);
+                    fragmentTransaction.commit();
+                }
+                break;
             case "ListViewFragment":
-                ListViewFragment listViewFragment = new ListViewFragment();
                 fragmentTransaction.replace(R.id.fragment_container, listViewFragment);
                 fragmentTransaction.commit();
                 break;
             case "RecyclerViewFragment":
-                RecyclerViewFragment recyclerViewFragment = new RecyclerViewFragment();
                 fragmentTransaction.replace(R.id.fragment_container, recyclerViewFragment);
+                fragmentTransaction.commit();
+                break;
+            case "Demo":
+                fragmentTransaction.replace(R.id.fragment_container, fragmentDemo);
                 fragmentTransaction.commit();
                 break;
         }

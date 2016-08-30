@@ -1,4 +1,4 @@
-package com.example.vostro.myapplication;
+package com.example.vostro.myapplication.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.example.vostro.myapplication.R;
 
 import java.util.ArrayList;
 
@@ -34,10 +36,12 @@ public class LeftDrawerFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         navigationItemCLicked = (NavigationItemCLicked) getActivity();
+        arrayList.add("Home");
         arrayList.add("List View");
         arrayList.add("Recycler View");
+        arrayList.add("Demo");
 
-        ArrayAdapter arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1,
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1,
                 arrayList);
 
         listView.setAdapter(arrayAdapter);
@@ -47,12 +51,17 @@ public class LeftDrawerFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0:
-                        navigationItemCLicked.itemClicked("ListViewFragment");
+                        navigationItemCLicked.itemClicked("Home");
                         break;
                     case 1:
+                        navigationItemCLicked.itemClicked("ListViewFragment");
+                        break;
+                    case 2:
                         navigationItemCLicked.itemClicked("RecyclerViewFragment");
                         break;
-
+                    case 3:
+                        navigationItemCLicked.itemClicked("Demo");
+                        break;
                 }
             }
         });
